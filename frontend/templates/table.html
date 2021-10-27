@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport">
+    <title>Scrapper</title>
+</head>
+<body>
+    <table>
+        <tr>
+            {% for header in headings %}
+            <th> {{ header }} </th>
+            {% endfor %}
+        </tr>
+        {% for row in data %}
+        <tr>
+            {% for element in row %}
+            <td> {{ element }} </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+

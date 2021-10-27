@@ -1,0 +1,42 @@
+version: '3.1'
+
+services:
+  db:
+    image: 'postgres'
+    hostname: db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1111
+      POSTGRES_DB: postgres
+      POSTGRES_HOST: localhost
+    expose:
+      - '5432'
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - network-app
+  scrapper:
+    build: /scrapper
+    networks:
+      - network-app
+    # Необходимо указать, что контейнер должен запускаться после запуска контейнера с БД
+    depends_on:
+      - db
+  frontend:
+    build: /frontend
+    networks:
+      - network-app
+    # Необходимо указать, что контейнер должен запускаться после запуска контейнера с БД
+    depends_on:
+      - scrapper
+    ports:
+      - '8080:8080'
+
+networks:
+  network-app:
+    name: network-app
+    external: true
+    driver: overlay
+
